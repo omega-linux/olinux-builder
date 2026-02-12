@@ -1,0 +1,1 @@
+# Logout prompt banner for OmegaLinux.

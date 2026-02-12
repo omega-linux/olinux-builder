@@ -1,0 +1,1 @@
+# Panel theming for omegalinux including config and icons.

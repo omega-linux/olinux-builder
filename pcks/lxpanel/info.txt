@@ -1,0 +1,1 @@
+This lxpanel version is newer than the one thats on the ubuntu repos, fixing some issues like the panel being cut off, etc.

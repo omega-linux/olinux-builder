@@ -1,0 +1,2 @@
+# OmegaLinux currently inherits the kernel from Loc-OS Linux since its more lightweight, and i dont plan to make a custom kernel for it.
+# Shout out to Nico (Nicolas Longardi, the dev behind Loc-OS.)

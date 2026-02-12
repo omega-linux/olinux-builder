@@ -1,0 +1,2 @@
+# Installs themes used on OmegaLinux.
+# Shout out to vincelliuice and varlesh.
