@@ -1,0 +1,5 @@
+1: on grub config, next to "boot=casper", add this line:
+
+layerfs-path=minimal.squashfs
+
+this will only load minimal.squashfs
