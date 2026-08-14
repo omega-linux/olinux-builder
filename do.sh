@@ -8,18 +8,19 @@ sleep 2
 echo Processing "remove all lubuntu junk"...
 # we do some shit here
 apt update
-apt --purge autoremove lubuntu-desktop -y
+apt --purge autoremove lubuntu-desktop-minimal -y
 apt --purge autoremove qt* qt5* qt6* qml* lxqt* libqt5* libqt6* libqt* libkf5* gnome* -y
-apt --purge autoremove lubuntu* -y
-apt --purge autoremove calamares* -y
 rm -rf /usr/share/qt* /usr/share/qt5* /usr/share/qt6 /usr/share/qml* /usr/share/lxqt* /usr/share/sddm*
 rm -rf /usr/lib/qt* /usr/lib/qt5* /usr/lib/qt6 /usr/lib/qml* /usr/lib/lxqt* /usr/lib/sddm*
 rm -rf /usr/lib/qt* /etc/qt5* /etc/qt6 /etc/qml* /etc/lxqt* /etc/sddm*
 rm -rf /usr/lib/calamares* /usr/share/calamares* /etc/calamares*
+apt install initramfs-tools casper -y
+apt install cryptsetup -y
+apt autoremove dracut-core -y
 echo Done processing "remove all lubuntu junk".
 
 # Install LXDE and some other goodies
-echo Processing "Install LXDE and some other stuff"...
+echo Processing "Install LXDE and some other goodies"...
 apt upgrade -y
 apt install lxde-core lightdm slick-greeter celluloid xinit lxsession -y
 apt install lxde --no-install-recommends -y
@@ -28,12 +29,12 @@ apt remove lxpanel lxpanel-data -y
 apt install ./pcks/lxpanel/lxpanel_0.11.1-olinux_amd64.deb -y
 apt install libwnck-3-0 libwnck-3-common -y
 apt install lxde --no-install-recommends -y
-apt install lightdm slick-greeter --no-install-recommends -y
-echo Done processing "Install LXDE and some other stuff".
+echo Done processing "Install LXDE and some other goodies".
 
 # Install fastfetch and add its olinux configs
 echo Processing "Install fastfetch and add its olinux configs"...
-apt --purge autoremove neofetch -y
+apt --purge autoremove fastfetch -y
+apt install libwnck-3-0 libwnck-3-common -y
 cp -rf pcks/fastfetch/fastfetch /usr/bin/
 mkdir /etc/skel/.config
 mkdir /etc/skel/.config/fastfetch
@@ -47,10 +48,10 @@ echo Done processing "Install fastfetch and add its olinux configs".
 
 # Replace kernel with Loc-OS's (refer to mods/locoskernel/info.txt)
 echo Processing "Replace kernel with Loc-OS's (refer to mods/locoskernel/info.txt)"...
-apt remove linux-image* linux-headers* linux-modules-* linux-hwe* -y
+apt remove linux-image* linux-headers* linux-modules-* linux-tools* -y
 apt install ./mods/locoskernel/*.deb -y --allow-downgrades
 apt-mark hold linux-libc-dev
-apt install amd64-microcode bpfcc-tools bpftrace hwdata ieee-data intel-microcode iucode-tool libbpfcc libc-dev-bin libc-devtools libc6-dev libclang-cpp18 libclang1-18 libcrypt-dev libdebuginfod-common libdebuginfod1t64 libllvm18 libupower-glib3 linux-tools-common manpages-dev python3-bpfcc python3-netaddr rpcsvc-proto thermald ubuntu-kernel-accessories upower
+apt install amd64-microcode grub-pc-bin libc-dev-bin thermald bpfcc-tools grub2-common libc6-dev manpages-dev ubuntu-kernel-accessories bpftrace ieee-data libclang-cpp21 os-prober grub-common intel-microcode libclang1-21 python3-bpfcc grub-gfxpayload-lists iucode-tool libefiboot1t64 python3-netaddr grub-pc libbpfcc libefivar1t64 rpcsvc-proto bpftool hwdata libdebuginfod-common libdebuginfod1t64 linux-perf pnp.ids
 echo Done processing "Replace kernel with Loc-OS's (refer to mods/locoskernel/info.txt)".
 
 # Nuke snap and install deb firefox
@@ -136,14 +137,13 @@ echo Done processing "Openbox theme"
 
 # fixups
 echo Processing "fixups"...
-apt install xdg-desktop-portal-gtk libdbusmenu-gtk3-4 gtk2-engines-murrine gir1.2-gtksource-4 libxapp-gtk3-module libpipewire-0.3-0t64 libpipewire-0.3-common -y
+apt install xdg-desktop-portal-gtk libdbusmenu-gtk3-4 gtk2-engines-murrine gir1.2-gtksource-4 libxapp-gtk3-module -y
 echo Done processing "fixups".
 
-# replace pulseaudio with pipewire
-echo Processing "replace pulseaudio with pipewire"...
-apt autoremove pulseaudio pulseaudio-utils  -y
-apt install pipewire wireplumber pipewire-audio-client-libraries pipewire-alsa  -y
-echo Done processing "replace pulseaudio with pipewire".
+# install pipewire deps
+echo Processing "install pipewire deps"...
+apt install pipewire-audio-client-libraries pipewire-alsa  -y
+echo Done processing "install pipewire deps".
 
 # Splash Screen
 echo Processing "Splash Screen"...
@@ -162,18 +162,22 @@ apt install ubuntu-drivers-common -y
 echo Done processing "Install ubiquity installer".
 
 # olinux os release file
-echo Processing "olinux os release file"...
-rm -rf /usr/lib/os-release
-cp mods/osrel/os-release /usr/lib/
-echo Done processing "olinux os release file".
+# echo Processing "olinux os release file"...
+# rm -rf /usr/lib/os-release
+# cp mods/osrel/os-release /usr/lib/
+# echo Done processing "olinux os release file".
 
 # Installing and removing packages and final adjustments before cleaning
 echo Processing "Installing and removing packages and final adjustments before cleaning"...
 apt --purge remove libreoffice* -y
-apt install fonts-opensymbol gstreamer1.0-plugins-good gstreamer1.0-x libaa1 libabsl20220623t64 libavc1394-0 libboost-locale1.83.0 libboost-thread1.83.0 libcaca0 libclucene-contribs1t64 libclucene-core1t64 libdv4t64 libeot0 libexttextcat-2.0-0 libexttextcat-data libgpgmepp6t64 libgstreamer-plugins-good1.0-0 libharfbuzz-icu0 libhyphen0 libiec61883-0 liblangtag-common liblangtag1 libmhash2 libmythes-1.2-0 liborcus-0.18-0 liborcus-parser-0.18-0 libraptor2-0 librasqal3t64 libraw1394-11 librdf0t64 librevenge-0.0-0 libshout3 libtag1v5 libtag1v5-vanilla libuno-cppu3t64 libuno-cppuhelpergcc3-3t64 libuno-purpenvhelpergcc3-3t64 libuno-sal3t64 libuno-salhelpergcc3-3t64 libv4l-0t64 libv4lconvert0t64 libxmlsec1t64 libxmlsec1t64-nss libxslt1.1 libyajl2 uno-libs-private ure
+apt autoremove yt-dlp -y # not necessary and can be installed manually
+apt install fonts-opensymbol bluez gstreamer1.0-x libdv4t64 libopengl0 gstreamer1.0-plugins-good libcaca0 libglu1-mesa libwavpack1 -y
+# install some utilities and essential stuff
 apt install blueman --no-install-recommends -y
 apt install lxtask --no-install-recommends -y
 apt install network-manager-gnome --no-install-recommends -y
+apt install gnome-disk-utility -y
+apt install rar unrar zip unzip 7zip xz-utils -y
 echo Done processing "Installing and removing packages and final adjustments before cleaning".
 
 # Final cleanup and finish
