@@ -68,12 +68,9 @@ echo Done processing "Nuke snap and install deb firefox".
 
 # OmegaLinux theming
 echo Processing "OmegaLinux theming"...
-cp -rf mods/theming/theme/Orchis /usr/share/themes/
-cp -rf mods/theming/theme/Orchis-Dark /usr/share/themes/
-cp -rf mods/theming/icons/Tela /usr/share/icons/
-cp -rf mods/theming/icons/Tela-dark /usr/share/icons/
-cp -rf mods/theming/icons/Tela-light /usr/share/icons/
-cp -rf mods/theming/cur/volantes_light_cursors /usr/share/icons/
+cp -rf mods/theming/theme/Obsidian-2 /usr/share/themes/
+cp -rf mods/theming/icons/Obsidian /usr/share/icons/
+cp -rf mods/theming/cur/DMZ-White /usr/share/icons/
 mkdir /etc/skel/.config/lxsession
 mkdir /etc/skel/.config/lxsession/LXDE
 cp -rf mods/theming/cfg/desktop.conf /etc/skel/.config/lxsession/LXDE
@@ -82,7 +79,7 @@ echo Done processing "OmegaLinux theming".
 # cursor fixup
 echo Processing "cursor fixup"
 rm -rf /usr/share/icons/Adwaita/cursors/*
-cp -rf /usr/share/icons/volantes_light_cursors/cursors/* /usr/share/icons/Adwaita/cursors/
+cp -rf /usr/share/icons/DMZ-White/cursors/* /usr/share/icons/Adwaita/cursors/
 echo Done processing "cursor fixup"
 
 # OLinux Wallpapers

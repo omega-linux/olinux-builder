@@ -22,7 +22,7 @@ Plugin {
       command=logout
       image=gnome-logout
     }
-    image=/usr/fancy-stuff/omegastart-white.png
+    image=/usr/fancy-stuff/omegastart.png
   }
 }
 Plugin {
