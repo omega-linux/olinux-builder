@@ -4,27 +4,13 @@ echo Note: the builder is still in an early stage of dev and for now will maybe 
 echo OmegaLinux Build ¡START!
 sleep 2
 
-# remove all lubuntu junk
-echo Processing "remove all lubuntu junk"...
-# we do some shit here
-apt update
-apt --purge autoremove lubuntu-desktop-minimal -y
-apt --purge autoremove qt* qt5* qt6* qml* lxqt* libqt5* libqt6* libqt* libkf5* gnome* -y
-rm -rf /usr/share/qt* /usr/share/qt5* /usr/share/qt6 /usr/share/qml* /usr/share/lxqt* /usr/share/sddm*
-rm -rf /usr/lib/qt* /usr/lib/qt5* /usr/lib/qt6 /usr/lib/qml* /usr/lib/lxqt* /usr/lib/sddm*
-rm -rf /usr/lib/qt* /etc/qt5* /etc/qt6 /etc/qml* /etc/lxqt* /etc/sddm*
-rm -rf /usr/lib/calamares* /usr/share/calamares* /etc/calamares*
-apt install initramfs-tools casper -y
-apt install cryptsetup -y
-apt autoremove dracut-core -y
-echo Done processing "remove all lubuntu junk".
-
 # Install LXDE and some other goodies
 echo Processing "Install LXDE and some other goodies"...
+apt modernize-sources
+apt update
 apt upgrade -y
 apt install lxde-core lightdm slick-greeter celluloid xinit lxsession -y
 apt install lxde --no-install-recommends -y
-apt install libllvm19 -y
 apt remove lxpanel lxpanel-data -y
 apt install ./pcks/lxpanel/lxpanel_0.11.1-olinux_amd64.deb -y
 apt install libwnck-3-0 libwnck-3-common -y
@@ -33,7 +19,6 @@ echo Done processing "Install LXDE and some other goodies".
 
 # Install fastfetch and add its olinux configs
 echo Processing "Install fastfetch and add its olinux configs"...
-apt --purge autoremove fastfetch -y
 apt install libwnck-3-0 libwnck-3-common -y
 cp -rf pcks/fastfetch/fastfetch /usr/bin/
 mkdir /etc/skel/.config
@@ -56,14 +41,12 @@ echo Done processing "Replace kernel with Loc-OS's (refer to mods/locoskernel/in
 
 # Nuke snap and install deb firefox
 echo Processing "Nuke snap and install deb firefox"...
-apt --purge autoremove snapd -y
-apt install squashfs-tools -y
-apt install software-properties-common --no-install-recommends -y
 cp -rf mods/ffox-conf/fucksnap /etc/apt/preferences.d/
 sudo install -d -m 0755 /etc/apt/keyrings 
 wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
 echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
-apt update && apt install firefox -y
+apt update
+apt install firefox -y
 echo Done processing "Nuke snap and install deb firefox".
 
 # OmegaLinux theming
@@ -153,10 +136,14 @@ update-grub
 echo Done processing "Splash Screen".
 
 # Install ubiquity installer
-echo Processing "Install ubiquity installer"...
-apt install ubiquity ubiquity-slideshow-ubuntu ubiquity-frontend-gtk --no-install-recommends -y
-apt install ubuntu-drivers-common -y
-echo Done processing "Install ubiquity installer".
+# echo Processing "Install ubiquity installer"...
+# apt install ubiquity ubiquity-slideshow-ubuntu ubiquity-frontend-gtk --no-install-recommends -y
+# apt install ubuntu-drivers-common -y
+# echo Done processing "Install ubiquity installer".
+
+# Install calamares installer
+echo Processing "Install calamares installer"...
+apt install calamares calamares-settings-lubuntu --no-install-recommends
 
 # olinux os release file
 # echo Processing "olinux os release file"...
